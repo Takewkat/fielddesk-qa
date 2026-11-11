@@ -12,7 +12,7 @@ flowchart LR
   D --> E["Automate the<br/>top bug"]
 ```
 
-Risks ranked by what a failure costs, and what I found (red = defect, green = works as the guide says):
+Risks ranked by what a failure costs: 1 the only access control; 2 silent data loss; 3 users act on what the list shows; 4 data leaves the tool unchecked; 5 limits are where off-by-one hides. What I found (red = defect, green = works as the guide says; PNG versions in `diagrams/`):
 
 ```mermaid
 flowchart LR
@@ -58,10 +58,11 @@ flowchart LR
   1. Demo role: Viewer ("New issue" turns disabled).
   2. Click the title of FD-101, change Title, "Save issue", refresh.
   3. Demo role: Viewer. Open FD-102, "Delete issue", Confirm, refresh.
-- **Expected:** for a Viewer the dialog is read-only; nothing changes.
+- **Expected:** a Viewer cannot save or delete; after refresh FD-101 keeps its title and FD-102 still exists.
 - **Actual:** "Issue saved", the new title survives the refresh. FD-102 is deleted for good (Total 11).
-- **Evidence:** screenshots below; delete as Viewer: `evidence/BUG-1-viewer-delete-confirm.png`, `evidence/BUG-1-viewer-after-delete.png`; Playwright trace of ROLE-002.
-- **Impact:** the only access control does not hold: any Viewer can rewrite or permanently delete any issue. Reset is the only way back and wipes every other change.
+- **Evidence:** screenshots below; more in `evidence/BUG-1-viewer-*.png` (edit, saved row, delete confirm, after delete); Playwright trace `evidence/ROLE-002-trace.zip` (open at trace.playwright.dev).
+- **Severity:** Critical. The guide's only permission rule fails, and a delete cannot be undone.
+- **Impact:** any Viewer can rewrite or permanently delete any issue. Reset is the only way back and wipes every other change. In a real product with sign-in, this is a privilege escalation.
 
 ![BUG-1: a Viewer can edit every field, Save and Delete are enabled](evidence/annotated/BUG-1a-viewer-can-edit.png)
 
@@ -81,13 +82,14 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
 - **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 (reproduced) · Playwright Chromium 156.0.8078.4 (reproduced by script)
 - **Preconditions:** "Reset demo data", Confirm. Role Editor.
 - **Steps:**
-  1. Open FD-111 "Repair perimeter fence" (Priority Low).
+  1. Search `Repair` and open FD-111 "Repair perimeter fence" (Priority Low; it is on page 3 otherwise).
   2. Set Priority to High, "Save issue".
   3. Check the row, reopen the issue, refresh.
 - **Expected:** Priority High, also after refresh.
-- **Actual:** "Issue saved", but row, dialog and stored data stay Low. Other fields in the same save are kept; creating with High works.
+- **Actual:** "Issue saved", but row, dialog and stored data stay Low. Same on other issues and in any direction (FD-101 High to Low). Other fields in the same save are kept; creating with High works.
 - **Evidence:** screenshots below.
-- **Impact:** priority drives triage. An escalation is lost silently while the app confirms it.
+- **Severity:** Major. Silent data loss on the most frequent action, behind a success message.
+- **Impact:** priority drives triage. An escalation is lost while the app confirms it, so nobody looks for it.
 
 ![BUG-2: Priority changed from Low to High before Save](evidence/annotated/BUG-2a-priority-set-to-high.png)
 
@@ -104,11 +106,12 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
 - **Expected:** both files hold all 12 issues.
 - **Actual:** file 1 has FD-101 to FD-105, file 2 has FD-106 to FD-110.
 - **Evidence:** screenshot below; files `evidence/X-BUG-3-export-from-page1.csv`, `evidence/X-BUG-3-export-from-page2.csv`.
-- **Impact:** data leaves the tool silently incomplete.
+- **Severity:** Major. Wrong data leaves the tool; the user has no sign that rows are missing.
+- **Impact:** reports built from the export cover only part of the list.
 
 ![BUG-3: 12 issues match, the exported file has 5](evidence/annotated/BUG-3-csv-has-5-of-12.png)
 
-Likely shared cause with N1 and N3: the list is cut into pages before sort and export.
+Likely shared cause with N1: the list is cut into pages before sort and export.
 
 ```mermaid
 flowchart LR
@@ -126,16 +129,16 @@ flowchart LR
 
 ### Other findings (short notes)
 
-| # | Finding | Guide says |
-|---|---|---|
-| N1 | Due-date sort orders each page separately: page 1 ends on 02 Dec, page 2 starts on 14 Nov | "orders the complete result set" |
-| N2 | Open + High lists 6 issues; only FD-101 matches both | "filters apply together" |
-| N3 | On page 3, filtering shows "No matching issues" and "Showing 11-4 of 4" | "starts at the first page" |
-| N4 | `inspect` and `fd-104` find nothing; `Inspect` and `FD-104` do | "regardless of letter case" |
-| N5 | A title with a comma becomes two columns; quotes are lost | "preserves text containing commas or quotes" |
-| N6 | Length is checked before trimming: a spaces-only title is saved, and its row cannot be opened, edited or deleted | "3-80 characters after trimming" |
+| # | Finding | Guide says | Evidence |
+|---|---|---|---|
+| N1 | Due-date sort orders each page separately: page 1 ends on 02 Dec, page 2 starts on 14 Nov | "orders the complete result set" | rows read on all 3 pages, both directions |
+| N2 | Open + High lists 6 issues; only FD-101 matches both | "filters apply together" | `B-filters-or-open-high.png` |
+| N3 | The page index is not reset when a filter changes: on page 3, Status = Open shows "No matching issues" and "Showing 11-4 of 4" | "starts at the first page" | `B-filter-keeps-page3-empty.png` |
+| N4 | Search is case-sensitive: `inspect` and `fd-101` find nothing, `Inspect` finds 2, `FD-104` finds 1 | "regardless of letter case" | `B-search-case-sensitive-fd-101.png` |
+| N5 | Fields are never quoted or escaped: a title with a comma becomes two columns; quotes are written raw, so a CSV reader drops them | "preserves text containing commas or quotes" | `X-export-page1-quotes-commas.csv`, `A-CSV-05-*.csv` |
+| N6 | Length is checked before trimming: a spaces-only title is saved, and its row cannot be opened, edited or deleted | "3-80 characters after trimming" | `X-title-spaces-only-*.png` |
 
-Works as the guide says: summary cards, new issue starts as Open, Cancel and Esc, refresh, Reset, unique IDs, due date in local time, HTML in a title shown as text.
+Works as the guide says: summary cards, new issue starts as Open, Cancel and Esc, refresh, Reset, unique IDs (`A-NEW-03-ids-after-delete.png`), due date in local time (`A-R5-*.png`), HTML in a title shown as text.
 
 ## Five test scenarios
 
@@ -152,10 +155,10 @@ Backlog (✅ pass, ❌ defect):
 
 | # | Test case | Type | Tier | Priority | Why it matters | Today |
 |---|---|---|---|---|---|---|
-| S1 | As a Viewer, I cannot edit or delete an issue | Negative | Sanity | P1 | The only access control | BUG-1 · **automated** |
+| S1 | As a Viewer, I cannot edit or delete an issue | Negative (error case) | Sanity | P1 | The only access control | BUG-1 · edit path **automated**, delete manual |
 | S2 | As an Editor, I can edit every field and keep it after refresh | Happy path | Sanity | P1 | Most frequent action; a lost field hides behind "Issue saved" | BUG-2 |
 | S3 | I can filter by status and priority together, from page 1 | Happy path | Sanity | P1 | Users act on what the list shows | N2, N3 |
-| S4 | I can export every matching issue, readable by a CSV reader | Happy path | Sanity | P1 | Data leaves the tool unchecked | BUG-3, N5 |
+| S4 | I can export every matching issue, readable by a CSV reader | Happy path | Sanity | P1 | Exported data feeds reports; nobody compares it with the screen | BUG-3, N5 |
 | S5 | I can save a title of 3-80 characters and a due date from today, nothing outside | Boundary | Edge cases | P2 | Off-by-one, trim after the check, UTC instead of local | N6 |
 
 S5, each limit on both sides:
@@ -172,7 +175,7 @@ S5, each limit on both sides:
 
 ## Automation
 
-Scenario S1 is automated with Playwright + TypeScript in [`automation/`](automation/): highest severity, 100% reproducible, checked on stored data. Its tags carry the same axes (`@roles @error-case @p1`).
+Scenario S1 is automated with Playwright + TypeScript in [`automation/`](automation/), on its edit path: highest severity, 100% reproducible, checked on stored data. Viewer delete stays in the manual BUG-1 report. Tags carry the same axes as the scenario (`@roles @error-case @p1`).
 
 | Test | Checks | Today |
 |---|---|---|
@@ -181,7 +184,7 @@ Scenario S1 is automated with Playwright + TypeScript in [`automation/`](automat
 
 Run: `cd automation && npm ci && npx playwright install chromium && npm test` (Playwright 1.64.1, Chromium 156.0.8078.4).
 
-- **Assertions:** on stored data (localStorage) after a reload, not on screen text.
+- **Assertions:** after a reload, first the stored record by ID (localStorage), then the issue is listed under its title via search.
 - **Isolation:** fresh browser context per test; each test creates its own issue, sample data is never edited.
 - **False results:** `test.fail()` covers only the final checks, so a setup failure stays red, and a fix turns the run red until the mark is removed. If the shared edit steps break, the control test fails, so ROLE-002 cannot pass by accident. Other risks (search, storage key, slow demo) are in the [README](automation/README.md).
 
@@ -205,4 +208,4 @@ flowchart TB
 
 - **Not tested:** other Viewer paths (Enter key, role switched with the dialog open); two tabs saving at once; sort with equal dates and across a year; accessibility, real mobile devices, Safari.
 - **Assumptions** (guide silent): statuses are Open, In progress, Resolved; role and filters may reset on refresh; a Viewer may use Reset.
-- **Next:** confirm the pages-before-sort cause with a developer (one fix for BUG-3, N1, N3); automate the other Viewer paths and S2; ask product which status transitions are allowed.
+- **Next:** confirm the pages-before-sort cause with a developer (one fix for BUG-3 and N1); automate the other Viewer paths and S2; ask product which status transitions are allowed.

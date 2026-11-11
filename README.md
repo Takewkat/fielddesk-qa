@@ -7,10 +7,10 @@ A two-hour QA exercise on Fielddesk, a fictional browser-only issue tracker, che
 | Path | What it holds |
 |---|---|
 | [`SUBMISSION.md`](SUBMISSION.md) | The answers to the four tasks and the automation note |
-| [`automation/`](automation/) | Playwright + TypeScript test for scenario S1 (a Viewer cannot change an issue); its README covers setup, assertions, isolation and false positives |
-| [`evidence/`](evidence/) | Screenshots and exported CSV files cited by the bug reports (`X-` exploration, `A-` automation) |
-| [`diagrams/`](diagrams/) | Approach, risk map, lifecycle and root-cause diagrams |
-| [`model/`](model/) | The domain model written from the guide before exploring: lifecycles, roles, view state, boundary catalogue |
+| [`automation/`](automation/) | Playwright + TypeScript test for scenario S1, edit path (a Viewer cannot rename an issue); its README covers setup, assertions, isolation and false positives |
+| [`evidence/`](evidence/) | Screenshots, exported CSV files and the ROLE-002 trace cited by the answers: `annotated/` bug area marked in red; `BUG-1-*`, `B-*`, `X-` captured while exploring; `A-` scripted Playwright checks |
+| [`diagrams/`](diagrams/) | PNG versions of the diagrams in `SUBMISSION.md` |
+| [`model/`](model/) | The domain model written from the guide before exploring, annotated with results afterwards: lifecycles, roles, view state, boundary catalogue |
 
 Run the test:
 

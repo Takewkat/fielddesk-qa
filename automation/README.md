@@ -39,7 +39,7 @@ Specs call fixtures and page objects only; no locator or storage key appears in 
 
 `test.fail()` is called right before the rule checks, not at the top of the test. A failure while creating the issue, switching role or opening the dialog is therefore a real red failure, never mistaken for the known bug. When BUG-1 is fixed, ROLE-002 passes, Playwright reports "expected to fail, but passed" and the run turns red: remove the `test.fail()` line then.
 
-Trace and screenshot are `on` for every test, because `retain-on-failure` keeps nothing for an expected failure, and the trace of ROLE-002 is the evidence for BUG-1.
+Trace and screenshot are `on` for every test, because `retain-on-failure` keeps nothing for an expected failure, and the trace of ROLE-002 is the evidence for BUG-1. A copy from a run is committed as `../evidence/ROLE-002-trace.zip` (open it at trace.playwright.dev).
 
 ## Assertions
 
