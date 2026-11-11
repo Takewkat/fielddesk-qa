@@ -159,21 +159,22 @@ flowchart LR
 | 4 | SUM-01 | R11 | One filter click, compare cards with 12 / 4 / 4 / 4 |
 | 5 | PER-04 | R7 | Edit, Cancel, reopen: in-place mutation is a common planted bug and is data loss |
 
-## Status vs. exploration (2026-11-11)
+## Results after exploration (IDs as in `../SUBMISSION.md`)
 
-Already hit, no need to repeat: ROL-01/02/09 -> BUG-1, SRT-01/02 -> BUG-2, FLT-01 -> BUG-3, FLT-04 -> BUG-4, SRC-01/02/07 -> BUG-5, CSV-01/02 -> BUG-6, CSV-04 -> BUG-7. Passed: SUM-01..04, RST-01/02, RST-03 (Reset allowed as Viewer, guide silent), SRC-05, PER-02.
+| Cases | Result |
+|---|---|
+| ROL-01, ROL-02, ROL-09 | BUG-1 |
+| PER-02 | BUG-2 (priority is not saved on edit) |
+| CSV-01, CSV-02 | BUG-3 |
+| SRT-01, SRT-02 | N1 |
+| FLT-01 | N2 |
+| FLT-04 | N3 |
+| SRC-01, SRC-02, SRC-07 | N4 |
+| CSV-04, CSV-05 | N5 |
+| TTL-05, TTL-07, TTL-08 | N6 |
+| TTL-01..04, TTL-06, DUE-01..04, NEW-02, NEW-03, PER-04, PER-05, SUM-01..04, RST-01..03, RST-07 | Pass |
 
-Revised order for the remaining time, all P1 and untouched so far:
-
-| order | id | rule | why now |
-|---|---|---|---|
-| 1 | PER-04 | R7 | Cancel is the open TODO on R7; edit 2 fields, Cancel, reopen, refresh |
-| 2 | PER-05 | R7 | Same flow with X / Esc; cheap once PER-04 is set up |
-| 3 | CSV-05 | R12 | Quotes not checked yet; create title `Say "hi" now`, export (row also shows CSV-07 `=` handling) |
-| 4 | NEW-03 | R1/R4 | Delete FD-105, create 2 issues, look for a duplicate FD-113 |
-| 5 | RST-07 | R13 | Reset passed in-session; refresh afterwards to prove storage was reset too |
-
-Then sweep the untested rules R2 / R4 / R5 (P2, likely planted): TTL-01..08, NEW-01, DUE-01..03 and DUE-06; DUE-05 needs TZ emulation (Pacific/Honolulu in the Paris morning).
+Two predictions did not hold: DUE-05 (date shown a day early west of UTC) and NEW-03 (duplicate IDs).
 
 ## Open questions for exploration
 

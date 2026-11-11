@@ -8,7 +8,6 @@ A two-hour QA exercise on Fielddesk, a fictional browser-only issue tracker, che
 |---|---|
 | [`SUBMISSION.md`](SUBMISSION.md) | The answers to the four tasks and the automation note |
 | [`automation/`](automation/) | Playwright + TypeScript test for scenario S1 (a Viewer cannot change an issue); its README covers setup, assertions, isolation and false positives |
-| [`test-scenarios.md`](test-scenarios.md) | The five scenarios in full: preconditions, steps, expected result quoted from the guide |
 | [`evidence/`](evidence/) | Screenshots and exported CSV files cited by the bug reports (`X-` exploration, `A-` automation) |
 | [`diagrams/`](diagrams/) | Approach, risk map, lifecycle and root-cause diagrams |
 | [`model/`](model/) | The domain model written from the guide before exploring: lifecycles, roles, view state, boundary catalogue |

@@ -2,6 +2,8 @@
 
 11 Nov 2026 · Product guide 1.0 · macOS 27.2 · Chrome 157.0.8103.50 · Firefox 159.0.1 · time zone Europe/Paris
 
+Repository with the test, evidence, diagrams and model: https://github.com/Takewkat/fielddesk-qa
+
 ## 1. Risks and approach
 
 ```mermaid
@@ -95,7 +97,7 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
   2. "Next", "Export CSV" again.
 - **Expected:** both files hold all 12 issues.
 - **Actual:** file 1 has FD-101 to FD-105, file 2 has FD-106 to FD-110.
-- **Evidence:** `X-BUG-6-export-from-page1.csv`, `X-BUG-6-export-from-page2.csv`.
+- **Evidence:** `X-BUG-3-export-from-page1.csv`, `X-BUG-3-export-from-page2.csv`.
 - **Impact:** data leaves the tool silently incomplete.
 
 Likely shared cause with N1 and N3: the list is cut into pages before sort and export.
