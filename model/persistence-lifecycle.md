@@ -2,7 +2,7 @@
 
 Where the workspace data and the UI state live over time: seed in code, first write to localStorage, refresh, Reset, and the risky paths (corrupted storage, two tabs, private window). Guide basis: R7 (saved changes survive refresh in the same browser, Cancel discards) and R13 (Reset restores sample issues, clears filters, role back to Editor).
 
-Known facts: localStorage is EMPTY on first load. Automation lane (`../NOTES.md`): key `fielddesk.workspace.v1`, JSON array of `{id,title,description,project,status,priority,assignee,due:"YYYY-MM-DD"}`, written on first save; role is NOT stored (reload brings Editor back); seed due dates are relative to today.
+Known facts: localStorage is EMPTY on first load. Automation lane: key `fielddesk.workspace.v1`, JSON array of `{id,title,description,project,status,priority,assignee,due:"YYYY-MM-DD"}`, written on first save; role is NOT stored (reload brings Editor back); seed due dates are relative to today.
 
 ## 1. Data lifecycle
 

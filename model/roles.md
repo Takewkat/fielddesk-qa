@@ -2,7 +2,7 @@
 
 Permission matrix for the two simulated roles and every entry point through which a Viewer could still change data. Guide basis: R6 (Editors create, edit, delete; Viewers browse, search, filter, export, but cannot change issues) and R13 (Reset returns the role to Editor). The app is client-only, so every check is a UI check: the question is whether the UI enforces R6 on every path, not whether it is tamper-proof.
 
-Known facts: role is a "Demo role" combobox (Editor / Viewer). As Viewer, "New issue" is disabled. Automation lane (`../NOTES.md`): as Viewer, clicking a title link opens the details dialog with every field editable and Save issue / Delete issue enabled; a Viewer save is persisted and survives reload (BUG-1 candidate). Role is not stored: reload returns to Editor.
+Known facts: role is a "Demo role" combobox (Editor / Viewer). As Viewer, "New issue" is disabled. Automation lane: as Viewer, clicking a title link opens the details dialog with every field editable and Save issue / Delete issue enabled; a Viewer save is persisted and survives reload (BUG-1 candidate). Role is not stored: reload returns to Editor.
 
 ## 1. Permission matrix
 

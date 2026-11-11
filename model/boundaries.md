@@ -159,7 +159,7 @@ flowchart LR
 | 4 | SUM-01 | R11 | One filter click, compare cards with 12 / 4 / 4 / 4 |
 | 5 | PER-04 | R7 | Edit, Cancel, reopen: in-place mutation is a common planted bug and is data loss |
 
-## Status vs. exploration (from `../NOTES.md`, 2026-11-11)
+## Status vs. exploration (2026-11-11)
 
 Already hit, no need to repeat: ROL-01/02/09 -> BUG-1, SRT-01/02 -> BUG-2, FLT-01 -> BUG-3, FLT-04 -> BUG-4, SRC-01/02/07 -> BUG-5, CSV-01/02 -> BUG-6, CSV-04 -> BUG-7. Passed: SUM-01..04, RST-01/02, RST-03 (Reset allowed as Viewer, guide silent), SRC-05, PER-02.
 

@@ -2,7 +2,7 @@
 
 Two lifecycles of one issue: its business status (Open / In progress / Resolved) and its record life in the UI (form, save, edit, cancel, delete). Built from Product guide v1.0 plus observed facts only; anything the guide does not fix is marked UNKNOWN and listed as an open question.
 
-Sources: guide rules R1-R13 (see `boundaries.md`), first-load observation (2026-11-11, Chrome, Europe/Paris), automation lane notes in `../NOTES.md` (storage key, details dialog locators, Viewer edit candidate).
+Sources: guide rules R1-R13 (see `boundaries.md`), first-load observation (2026-11-11, Chrome, Europe/Paris), automation lane notes (storage key, details dialog locators, Viewer edit candidate).
 
 ## 1. Status lifecycle
 

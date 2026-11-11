@@ -12,7 +12,6 @@ A two-hour QA exercise on Fielddesk, a fictional browser-only issue tracker, che
 | [`evidence/`](evidence/) | Screenshots and exported CSV files cited by the bug reports (`X-` exploration, `A-` automation) |
 | [`diagrams/`](diagrams/) | Approach, risk map, lifecycle and root-cause diagrams |
 | [`model/`](model/) | The domain model written from the guide before exploring: lifecycles, roles, view state, boundary catalogue |
-| [`NOTES.md`](NOTES.md) | The raw working log shared by the exploration and automation lanes: claims, cross-checks, decisions |
 
 Run the test:
 
