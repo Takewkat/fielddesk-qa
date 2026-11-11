@@ -1,0 +1,6 @@
+ID,Title,Project,Status,Priority,Due date,Assignee
+FD-101,Inspect access gate alignment,Harbor,Open,High,2026-11-23,Maya Chen
+FD-102,Replace damaged cable labels,Northstar,In progress,Medium,2026-11-13,Alex Rivera
+FD-103,Review drainage, east perimeter,Northstar,Resolved,Low,2026-11-20,Jordan Lee
+FD-104,Verify inverter startup sequence,Harbor,Open,Medium,2026-11-12,Maya Chen
+FD-105,Confirm delivery schedule,Northstar,In progress,High,2026-12-02,Alex Rivera

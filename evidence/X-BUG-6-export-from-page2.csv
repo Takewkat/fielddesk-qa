@@ -1,0 +1,6 @@
+ID,Title,Project,Status,Priority,Due date,Assignee
+FD-106,Update safety induction checklist,Northstar,Resolved,Medium,2026-11-15,Jordan Lee
+FD-107,Inspect foundation tolerances,Harbor,Open,Low,2026-11-18,Maya Chen
+FD-108,Resolve sensor calibration drift,Northstar,In progress,Medium,2026-11-25,Alex Rivera
+FD-109,Check emergency lighting,Northstar,Resolved,High,2026-11-14,Jordan Lee
+FD-110,Review commissioning records,Harbor,Open,Medium,2026-11-29,Maya Chen
