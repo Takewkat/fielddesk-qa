@@ -78,7 +78,7 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
 ### BUG-2 · Major · A Priority change is not saved, but the app says "Issue saved"
 
 - **Guide:** "Saved changes survive a page refresh in the same browser."
-- **Browsers:** Chrome 157.0.8103.50 · Playwright Chromium 156.0.8078.4 (reproduced by script) · Firefox: not checked
+- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 (reproduced) · Playwright Chromium 156.0.8078.4 (reproduced by script)
 - **Preconditions:** "Reset demo data", Confirm. Role Editor.
 - **Steps:**
   1. Open FD-111 "Repair perimeter fence" (Priority Low).
@@ -199,7 +199,7 @@ flowchart TB
 
 - **Adopted:** the risk model (every defect sits in an area it flagged); scripted reads of storage, CSV and all pages; `test.fail()` for the known bug.
 - **Rejected:** two model predictions that failed when tested (date shown a day early, duplicate IDs); design opinions that match the guide.
-- **Verified:** each bug reproduced from Reset with real clicks; BUG-1 and BUG-3 also in Firefox 159.0.1; BUG-1, BUG-2 and N5 confirmed by two agents independently. Fictional data only.
+- **Verified:** each bug reproduced from Reset with real clicks; all three also in Firefox 159.0.1; BUG-1, BUG-2 and N5 confirmed by two agents independently. Fictional data only.
 
 ## Not tested, assumptions, next
 
