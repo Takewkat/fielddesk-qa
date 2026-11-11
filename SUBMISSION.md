@@ -54,7 +54,7 @@ flowchart LR
 ### BUG-1 · Critical · A Viewer can edit and delete issues
 
 - **Guide:** "Viewers can browse, search, filter, and export, but cannot change issues."
-- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 TODO_REPRO_YES_NO · automated test on Playwright Chromium 156.0.8078.4
+- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 (reproduced) · automated test on Playwright Chromium 156.0.8078.4
 - **Preconditions:** "Reset demo data", Confirm.
 - **Steps:**
   1. Demo role: Viewer ("New issue" turns disabled).
@@ -76,7 +76,7 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
 ### BUG-2 · Major · A Priority change is not saved, but the app says "Issue saved"
 
 - **Guide:** "Saved changes survive a page refresh in the same browser."
-- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 TODO_REPRO_YES_NO
+- **Browsers:** Chrome 157.0.8103.50 · Playwright Chromium 156.0.8078.4 (reproduced by script) · Firefox: not checked
 - **Preconditions:** "Reset demo data", Confirm. Role Editor.
 - **Steps:**
   1. Open FD-111 "Repair perimeter fence" (Priority Low).
@@ -90,7 +90,7 @@ Likely cause: the role is checked on the "New issue" button, not on save and del
 ### BUG-3 · Major · CSV export contains only the current page
 
 - **Guide:** "CSV export includes all matching issues, across all pages."
-- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 TODO_REPRO_YES_NO
+- **Browsers:** Chrome 157.0.8103.50 · Firefox 159.0.1 (reproduced)
 - **Preconditions:** "Reset demo data", Confirm. No filters: 12 issues, page 1 / 3.
 - **Steps:**
   1. "Export CSV".
@@ -184,19 +184,6 @@ flowchart TB
 
 - **Adopted:** the risk model (every defect sits in an area it flagged); scripted reads of storage, CSV and all pages; `test.fail()` for the known bug.
 - **Rejected:** two model predictions that failed when tested (date shown a day early, duplicate IDs); design opinions that match the guide.
-- **Verified:** each bug reproduced from Reset with real clicks, then in a second browser; BUG-1, BUG-2 and N5 confirmed by two agents independently. Fictional data only.
+- **Verified:** each bug reproduced from Reset with real clicks; BUG-1 and BUG-3 also in Firefox 159.0.1; BUG-1, BUG-2 and N5 confirmed by two agents independently. Fictional data only.
 
-## Automation
 
-S1 in Playwright + TypeScript, folder `automation/`. The README covers setup, assertions, isolation and false results.
-
-| Test | Checks | Today |
-|---|---|---|
-| ROLE-001 control | Editor renames own issue; after reload the stored title changed | Pass |
-| ROLE-002 | Viewer does the same; after reload the stored title must be unchanged | Expected failure: BUG-1 |
-
-Run from `automation/`: `npm ci && npx playwright install chromium && npm test` (Playwright 1.64.1, Chromium 156.0.8078.4).
-
-- **Isolation:** fresh browser context per test, each creates its own issue; sample data never edited.
-- **Expected failure:** `test.fail()` covers only ROLE-002's final checks. Green while BUG-1 is open, red once it is fixed; a setup failure stays red.
-- **No false pass:** both tests share the edit steps, so if those break, ROLE-001 fails.
